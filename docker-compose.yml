@@ -7,8 +7,8 @@ services:
     - start-dev
     - --spi-email-sender-provider=sendgrid-email-sender-provider
     - --spi-email-template-provider=sendgrid-email-template-provider
+    - --spi-email-sender-sendgrid-email-sender-provider-api-key=
     - --spi-email-template-sendgrid-email-template-provider-template-smtp-test=d-188
-    - --spi-email-template-sendgrid-email-template-provider-template-password-reset=d-188
     environment:
       KC_LOG_LEVEL: info
       KC_DB: postgres
