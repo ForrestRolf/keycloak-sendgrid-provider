@@ -12,4 +12,5 @@ public class Templates {
     String confirmIdentityBrokerLink;
     String verifyEmail;
     String emailUpdateConfirmation;
+    String orgInviteEmail;
 }

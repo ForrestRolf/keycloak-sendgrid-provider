@@ -27,6 +27,7 @@ public class SendgridEmailTemplateProviderFactory implements EmailTemplateProvid
                 .verifyEmail(scope.get("template-verify-email"))
                 .confirmIdentityBrokerLink(scope.get("template-confirm-identity-broker-link"))
                 .emailUpdateConfirmation(scope.get("template-email-update-confirmation"))
+                .orgInviteEmail(scope.get("template-org-invite-email"))
                 .build();
         logger.infof("Sendgrid email templates %s", templates);
         this.templates = templates;

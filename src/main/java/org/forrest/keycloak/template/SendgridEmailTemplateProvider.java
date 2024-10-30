@@ -69,7 +69,7 @@ public class SendgridEmailTemplateProvider implements EmailTemplateProvider {
 
     @Override
     public void sendPasswordReset(String link, long expirationInMinutes) throws EmailException {
-        sendLink(link, expirationInMinutes);
+        sendLink(templates.getPasswordReset(),link, expirationInMinutes);
     }
 
     @Override
@@ -84,29 +84,29 @@ public class SendgridEmailTemplateProvider implements EmailTemplateProvider {
 
     @Override
     public void sendConfirmIdentityBrokerLink(String link, long expirationInMinutes) throws EmailException {
-        sendLink(link, expirationInMinutes);
+        sendLink(templates.getConfirmIdentityBrokerLink(), link, expirationInMinutes);
     }
 
     @Override
     public void sendExecuteActions(String link, long expirationInMinutes) throws EmailException {
-        sendLink(link, expirationInMinutes);
+        sendLink(templates.getEvent(),link, expirationInMinutes);
     }
 
     @Override
     public void sendVerifyEmail(String link, long expirationInMinutes) throws EmailException {
-        sendLink(link, expirationInMinutes);
+        sendLink(templates.getVerifyEmail(),link, expirationInMinutes);
     }
 
     @Override
     public void sendOrgInviteEmail(OrganizationModel organizationModel, String link, long expirationInMinutes) throws EmailException {
         this.attributes.put("orgName", organizationModel.getName());
-        sendLink(link, expirationInMinutes);
+        sendLink(templates.getOrgInviteEmail(),link, expirationInMinutes);
     }
 
     @Override
     public void sendEmailUpdateConfirmation(String link, long expirationInMinutes, String s1) throws EmailException {
         this.attributes.put("confirmation", s1);
-        sendLink(link, expirationInMinutes);
+        sendLink(templates.getEmailUpdateConfirmation(),link, expirationInMinutes);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class SendgridEmailTemplateProvider implements EmailTemplateProvider {
         emailSender.send(config, user, "", body, "");
     }
 
-    private void sendLink(String link, long expirationInMinutes) throws EmailException {
+    private void sendLink(String templateId, String link, long expirationInMinutes) throws EmailException {
         Map<String, String> config = realm.getSmtpConfig();
         Map<String, Object> attributes = new HashMap<>(this.attributes);
         attributes.put("link", link);
@@ -143,7 +143,7 @@ public class SendgridEmailTemplateProvider implements EmailTemplateProvider {
         attributes.put("firstName", user.getFirstName());
         attributes.put("lastName", user.getLastName());
 
-        send(config, processTemplate(templates.getPasswordReset(), config.get("from"), user.getEmail(), attributes));
+        send(config, processTemplate(templateId, config.get("from"), user.getEmail(), attributes));
     }
 
     protected SendgridMail processTemplate(String templateId, String sender, String to, Map<String, Object> attributes) {
