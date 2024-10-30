@@ -27,19 +27,19 @@ public class SendgridMail {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Personalization {
-        String to;
+        List<Email> to;
         Map<String, Object> dynamicTemplateData;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class From {
+    public static class Email {
         String email;
     }
 
     String templateId;
-    From from;
+    Email from;
     List<Personalization> personalizations;
     List<Attachment> attachments;
 }

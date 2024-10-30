@@ -2,6 +2,7 @@ package org.forrest.keycloak.template;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.forrest.keycloak.sendgrid.SendgridMail;
 import org.forrest.keycloak.sendgrid.Templates;
 import org.jboss.logging.Logger;
@@ -23,7 +24,7 @@ public class SendgridEmailTemplateProvider implements EmailTemplateProvider {
     protected RealmModel realm;
     protected UserModel user;
     protected final Map<String, Object> attributes = new HashMap<>();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);;
     protected Templates templates;
 
     SendgridEmailTemplateProvider(KeycloakSession session, Templates templates) {
@@ -147,12 +148,14 @@ public class SendgridEmailTemplateProvider implements EmailTemplateProvider {
 
     protected SendgridMail processTemplate(String templateId, String sender, String to, Map<String, Object> attributes) {
         List<SendgridMail.Personalization> personalizations = new ArrayList<>();
-        List<SendgridMail.Attachment> attachments = new ArrayList<>();
-        SendgridMail.From from = new SendgridMail.From(sender);
+        List<SendgridMail.Attachment> attachments = null;
+        SendgridMail.Email from = new SendgridMail.Email(sender);
+        List<SendgridMail.Email> recipient = new ArrayList<SendgridMail.Email>(){{
+            add(new SendgridMail.Email(to));
+        }};
 
-        personalizations.add(new SendgridMail.Personalization(to, attributes));
-        SendgridMail mail = new SendgridMail(templateId, from, personalizations, attachments);
-        return mail;
+        personalizations.add(new SendgridMail.Personalization(recipient, attributes));
+        return new SendgridMail(templateId, from, personalizations, attachments);
     }
 
     @Override

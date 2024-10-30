@@ -9,6 +9,7 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 public class SendgridEmailTemplateProviderFactory implements EmailTemplateProviderFactory {
+    private static final String ID = "sendgrid-email-template-provider";
     private static final Logger logger = Logger.getLogger(SendgridEmailTemplateProviderFactory.class);
     protected Templates templates;
 
@@ -43,6 +44,6 @@ public class SendgridEmailTemplateProviderFactory implements EmailTemplateProvid
 
     @Override
     public String getId() {
-        return "sendgrid-email-template-provider";
+        return ID;
     }
 }
