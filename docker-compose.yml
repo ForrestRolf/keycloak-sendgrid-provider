@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   keycloak:
-    image: keycloak/keycloak:26.0.2
+    image: keycloak/keycloak:26.3.5
     command:
     - start-dev
     - --spi-email-sender-provider=sendgrid-email-sender-provider
@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - 8080:8080
+      - 8082:8080
 
   postgres:
     image: postgres:12
